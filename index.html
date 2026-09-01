@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Little Letter 💌</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:Georgia,"Times New Roman",serif;background:linear-gradient(135deg,#fff1f5,#fff9ed 55%,#eef9ff);color:#49363b}
+.scene{height:100%;display:grid;place-items:center;position:relative;overflow:hidden}
+.glow{position:absolute;width:55vmin;height:55vmin;border-radius:50%;background:rgba(255,190,210,.22);filter:blur(45px);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.18);opacity:.7}}
+.petal{position:absolute;top:-8vh;font-size:20px;opacity:.7;animation:fall linear infinite}
+@keyframes fall{to{transform:translate3d(12vw,115vh,0) rotate(300deg)}}
+.intro{text-align:center;z-index:2;transition:opacity .5s,transform .5s}
+.intro.hide{opacity:0;transform:scale(.96);pointer-events:none}
+h1{font-size:clamp(28px,7vw,48px);font-weight:normal;margin:0 0 10px}
+.sub{font-family:system-ui,sans-serif;color:#806c73;margin-bottom:30px}
+.envelopeWrap{position:relative;width:min(82vw,360px);height:230px;cursor:pointer;perspective:900px;filter:drop-shadow(0 18px 18px rgba(100,50,70,.18))}
+.envelope{position:absolute;inset:0;background:#f6c5d1;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(100,50,70,.12)}
+.envelope:after{content:"";position:absolute;left:0;right:0;bottom:0;height:72%;background:#efb2c2;clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);z-index:2}
+.flap{position:absolute;z-index:4;top:0;left:0;width:100%;height:58%;background:#f8d0d9;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform 1s cubic-bezier(.2,.75,.2,1)}
+.seal{position:absolute;z-index:5;left:50%;top:51%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#c95d7d;color:#fff;font-size:25px;box-shadow:0 5px 14px rgba(100,40,60,.22);transition:opacity .4s}
+.envelopeWrap.open .flap{transform:rotateX(180deg)}
+.envelopeWrap.open .seal{opacity:0}
+.hint{font-family:system-ui,sans-serif;font-size:13px;margin-top:18px;color:#8d6c75;letter-spacing:.5px}
+.letter{position:absolute;z-index:10;width:min(88vw,620px);max-height:82vh;padding:42px 34px 34px;background:rgba(255,253,248,.97);border-radius:5px;box-shadow:0 25px 70px rgba(70,35,45,.25);opacity:0;transform:translateY(90px) scale(.94);pointer-events:none;transition:opacity .7s .65s,transform .8s .65s;overflow:auto}
+.envelopeWrap.open + .letter{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.letter:before{content:"";position:absolute;inset:13px;border:1px solid #efd6dc;pointer-events:none}
+.letter h2{font-size:clamp(25px,6vw,36px);font-weight:normal;margin:0 0 25px;text-align:center;color:#9e4964}
+.message{font-size:clamp(19px,4.7vw,25px);line-height:1.85;text-align:left;position:relative;z-index:1}
+.message p{margin:0 0 12px}.c1{color:#e05b83}.c2{color:#e69b3c}.c3{color:#5c9b75}.c4{color:#7771bd}.c5{color:#d25d9c}
+.sign{text-align:right;margin-top:28px;font-style:italic;color:#956275;font-size:18px}
+.close{display:block;margin:25px auto 0;border:0;background:#f1c3cf;color:#6f3e4d;border-radius:30px;padding:10px 20px;font-family:system-ui,sans-serif;cursor:pointer}
+@media(max-height:620px){.envelopeWrap{height:185px}.letter{max-height:90vh;padding:30px 25px}}
+</style>
+</head>
+<body>
+<div class="scene" id="scene">
+<div class="glow"></div>
+<div class="petal" style="left:8%;animation-duration:8s;animation-delay:-2s">🌻</div>
+<div class="petal" style="left:26%;animation-duration:10s;animation-delay:-7s">🌸</div>
+<div class="petal" style="left:61%;animation-duration:9s;animation-delay:-4s">✨</div>
+<div class="petal" style="left:82%;animation-duration:11s;animation-delay:-8s">🌼</div>
+
+<div class="intro" id="intro">
+<h1>A little letter for you 💌</h1>
+<div class="sub">Someone left this here just for you…</div>
+<div class="envelopeWrap" id="env" aria-label="Tap to open the letter">
+<div class="envelope"></div><div class="flap"></div><div class="seal">♥</div>
+</div>
+<div class="hint">TAP THE ENVELOPE TO OPEN</div>
+</div>
+
+<article class="letter" id="letter">
+<h2>Hello, dear 🌻</h2>
+<div class="message">
+<p>It's a <span class="c1">lovely windy day!</span> 🌻</p>
+<p>I have nothing to write just because <span class="c2">I don't know you actually!</span> 😝</p>
+<p><span class="c3">Hehehe!</span> 🤭</p>
+<p>Have a <span class="c4">good day.</span></p>
+<p><span class="c5">Tata!</span> 👋</p>
+</div>
+<div class="sign">— A tiny mystery 💌</div>
+<button class="close" id="close">Close letter</button>
+</article>
+</div>
+<script>
+const env=document.getElementById('env'), intro=document.getElementById('intro'), close=document.getElementById('close');
+env.addEventListener('click',()=>{env.classList.add('open');intro.classList.add('hide')});
+close.addEventListener('click',()=>{env.classList.remove('open');intro.classList.remove('hide')});
+</script>
+</body>
+</html>
